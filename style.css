@@ -1,0 +1,92 @@
+@keyframes bg-pan {
+    from {
+        background-position: 0% center;
+    }
+    to {
+        background-position: -200% center;
+    }
+}
+
+body {
+    animation: bg-pan 10s linear infinite;
+    height: 100vh;
+    color: white;
+    font-family: Verdana, Tahoma, sans-serif;
+    background: linear-gradient(90deg, #FF6666, #7d6fff, #FF6666);
+    background-size: 200%;
+    overflow: hidden;
+}
+
+#bgTiles {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    position: absolute;
+    z-index: -1;
+}
+
+.tile {
+    position: relative;
+}
+
+.tile:before {
+    content: "";
+    background-color: #263238;
+    inset: .5em;
+    position: absolute;
+}
+
+header {
+    margin: auto;
+    padding: 2.5%;
+    width: fit-content;
+    font-size: 36pt;
+}
+
+#wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 90%;
+    margin-inline: auto;
+    margin-block: 1em;
+    gap: 2em;
+}
+
+#wrapper > * {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5em;
+    border-radius: 10px;
+    background-color: #32424A;
+}
+
+form input {
+    background-color: #546E7A;
+    color: white;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    padding: 1em;
+    cursor: pointer;
+}
+
+form input:hover {
+    background-color: #425B67;
+}
+
+form input[type=submit] {
+    margin-top: 0.4em;
+    background-color: #009688;
+    font-size: 1em; 
+}
+
+form input[type=submit]:hover {
+    background-color: #006157;
+}
+
+ul {
+    overflow-y: scroll;
+}
+
