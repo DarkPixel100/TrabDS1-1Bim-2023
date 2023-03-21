@@ -10,16 +10,14 @@ $_SESSION["userID"] = 1; ?>
     <title>Biblioteca de jooj</title>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./style.css">
-    <script src="tiles.js"></script>
+    <script src="tiles.js" defer></script>
 </head>
 
 <body>
-    <div id="bgTiles">
-    </div>
     <header>
         <h1>Cadastro de Cartuchos</h1>
     </header>
-    <div id="wrapper">
+    <main>
         <form action="./cadastrando.php" method="post" enctype="multipart/form-data">
             <label for="titulo">Título do jogo:</label>
             <input type="text" name="titulo" required>
@@ -33,32 +31,39 @@ $_SESSION["userID"] = 1; ?>
             <input type="file" name="fotocartucho" accept="image/png, image/jpg, image/jpeg" required>
             <input type="submit" name="submit" value="Cadastrar">
         </form>
-        <ul id="gameList">
-            <?php
-            $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
-            $sqlquery = "SELECT UserGames.gameID, UserGames.titulo, UserGames.sistema, UserGames.ano, UserGames.empresa, UserGames.imgpath FROM UserGames JOIN Users WHERE UserGames.gameID = '" . $_SESSION["userID"] . "';";
-            $resultado = mysqli_query($conexao, $sqlquery);
-            $resultarray = array();
-            while ($data = mysqli_fetch_array($resultado, MYSQLI_ASSOC)) {
-                array_push($resultarray, $data);
-            }
-            foreach ($resultarray as $jogo) : ?>
-                <div class="jogo" id="<?php $jogo["gameID"] ?>">
-                    <img src="<?php $jogo["imgpath"] ?>">
-                    <h3>
-                        <?php $jogo["titulo"] ?>
-                    </h3>
-                    <span>
-                        <?php $jogo["empresa"] ?> -
-                        <?php $jogo["ano"] ?>
-                    </span>
-                    <span>
-                        <?php $jogo["sistema"] ?>
-                    </span>
-                </div>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+        <div id="gameList">
+            <ul>
+                <?php
+                $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+                $sqlquery = "SELECT UserGames.gameID, UserGames.titulo, UserGames.sistema, UserGames.ano, UserGames.empresa, UserGames.imgpath FROM UserGames JOIN Users WHERE UserGames.userID = '" . $_SESSION["userID"] . "';";
+                $resultado = mysqli_query($conexao, $sqlquery);
+                $resultarray = array();
+                while ($data = mysqli_fetch_array($resultado, MYSQLI_ASSOC)) {
+                    array_push($resultarray, $data);
+                }
+                foreach ($resultarray as $jogo) : ?>
+                    <li class="jogo" id="<?php echo $jogo["gameID"] ?>">
+                        <div class="imgBox">
+                            <img src="<?php echo $jogo["imgpath"] ?>">
+                        </div>
+                        <div class="gameInfo">
+                            <h3 class="gameTitle">
+                                <?php echo $jogo["titulo"] ?>
+                            </h3>
+                            <span>
+                                <?php echo $jogo["empresa"] ?>
+                                - Publicado em:
+                                <?php echo $jogo["ano"] ?>
+                            </span>
+                            <span>
+                                <?php echo $jogo["sistema"] ?>
+                            </span>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </main>
 </body>
 
 </html>

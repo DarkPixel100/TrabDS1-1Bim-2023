@@ -1,29 +1,35 @@
-function createTile(index) {
+const tileHolder = document.createElement("div");
+tileHolder.id = "bgTiles";
+document.body.prepend(tileHolder);
+
+let columns = 0, rows = 0;
+
+function createTile() {
   const tile = document.createElement("div");
   tile.classList.add("tile");
   return tile;
 }
 
 function createTiles(quantity) {
-  Array.from(Array(quantity)).map((tile, index) => {
-    tileHolder.appendChild(createTile(index));
+  Array.from(Array(quantity)).map((tile) => {
+    tileHolder.appendChild(createTile());
   });
 }
 
-function createGrid(squareSize) {
+function createGrid() {
   tileHolder.innerHTML = "";
 
-  let columns = Math.floor(document.body.clientWidth / squareSize);
-  let rows = Math.floor(document.body.clientHeight / squareSize);
+  const size = document.body.clientWidth > 800 ? 100 : 50;
 
-  tileHolder.style.setProprety("--columns", columns);
-  tileHolder.style.setProprety("--rows", rows);
+  columns = Math.floor(document.body.clientWidth / size);
+  rows = Math.floor(document.body.clientHeight / size);
+
+  tileHolder.style.setProperty("--columns", columns);
+  tileHolder.style.setProperty("--rows", rows);
 
   createTiles(columns * rows);
-}
+};
 
-let tileHolder = document.getElementById("bgTiles");
+createGrid();
 
-// createGrid(50);
-
-window.onresize = () => createGrid(50);
+window.onresize = () => createGrid();
