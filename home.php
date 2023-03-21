@@ -1,5 +1,5 @@
 <?php session_start();
-$_SESSION["userID"] = 1;?>
+$_SESSION["userID"] = 1; ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -10,12 +10,11 @@ $_SESSION["userID"] = 1;?>
     <title>Biblioteca de jooj</title>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./style.css">
-    <script src="bgTiles.js"></script>
+    <script src="tiles.js"></script>
 </head>
 
 <body>
     <div id="bgTiles">
-        <div class="tile"></div>
     </div>
     <header>
         <h1>Cadastro de Cartuchos</h1>
@@ -43,7 +42,7 @@ $_SESSION["userID"] = 1;?>
             while ($data = mysqli_fetch_array($resultado, MYSQLI_ASSOC)) {
                 array_push($resultarray, $data);
             }
-            foreach ($data as $jogo): ?>
+            foreach ($resultarray as $jogo) : ?>
                 <div class="jogo" id="<?php $jogo["gameID"] ?>">
                     <img src="<?php $jogo["imgpath"] ?>">
                     <h3>
