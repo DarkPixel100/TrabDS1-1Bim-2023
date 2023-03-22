@@ -26,8 +26,9 @@ $_SESSION["userID"] = 1; ?>
             <label for="sistema">Sistema:</label>
             <input type="text" name="sistema" required>
             <label for="ano">Ano de lançamento:</label>
-            <input type="date" name="ano" required>
-            <label for="fotocartucho">Foto do cartucho:</label>
+            <!-- <input type="date" name="ano" required> -->
+            <input type="text" name="ano" inputmode="numeric" pattern="[0-9]+" maxlength="4" required>
+            <label for=" fotocartucho">Foto do cartucho:</label>
             <input type="file" name="fotocartucho" accept="image/png, image/jpg, image/jpeg" required>
             <input type="submit" name="submit" value="Cadastrar">
         </form>

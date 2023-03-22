@@ -17,6 +17,7 @@ body {
     --grad1: #66a3ff;
     --grad2: #9046ff;
     animation: bg-pan 10s linear infinite;
+    height: 100dvh;
     height: 100vh;
     color: white;
     font-family: Verdana, Tahoma, sans-serif;
@@ -29,7 +30,8 @@ body {
 
 /* Div que contém os quadrados do background */
 #bgTiles {
-    height: 100vh;
+    height: 100%;
+    width: 100dvw;
     width: 100vw;
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
@@ -140,6 +142,7 @@ ul {
     background-color: black;
     opacity: 15%;
     position: absolute;
+    border-radius: 10px;
 }
 
 .imgBox>img {
