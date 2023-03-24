@@ -1,0 +1,91 @@
+/* Onde o conteúdo principal é contido */
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 90%;
+    margin-inline: auto;
+    margin-block: 1rem;
+    gap: 2rem;
+}
+
+main form {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#gameList {
+    font-size: 18pt;
+    height: calc(((1.5rem * 2 + 10rem) * 3) + (1rem * 2) + (1.5rem * 2));
+    overflow-y: hidden;
+    text-align: center;
+}
+
+#gameList form {
+    min-height: fit-content;
+    max-height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.jogo {
+    background-color: var(--gameInfoHolder);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    text-align: start;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-right: .5rem;
+}
+
+.jogo .imgBox {
+    height: 10rem;
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.jogo .imgBox:hover::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 15%;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.jogo .imgBox>img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.jogo .gameInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jogo .gameInfo>.gameTitle {
+    font-weight: bolder;
+}
+
+.jogo .gameInfo button {
+    background-color: var(--removeButton);
+    border-radius: 10px;
+    border: none;
+    margin: 0;
+    padding: .5rem;
+    font-size: 1rem;
+    width: fit-content;
+}
+
+.jogo .gameInfo button:hover {
+    background-color: var(--removeButtonHover);
+}

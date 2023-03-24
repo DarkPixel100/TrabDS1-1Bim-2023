@@ -1,0 +1,113 @@
+/* Variáveis de Cor*/
+.oceanic {
+    --grad1: #66a3ff;
+    --grad2: #9046ff;
+    --tileColor: #263238;
+    --boxColor: #32424A;
+    --inputColor: #546E7A;
+    --inputHoverColor: #425B67;
+    --inputOutline: #1E272C;
+    --buttonColor: #009688;
+    --buttonHoverColor: #006157;
+    --selectionColor: #425B67;
+    --gameInfoHolder: #546E7A;
+    --fontColor: white;
+    --removeButton: #f07178;
+    --removeButtonHover: #d25057;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Animação do degradê do background */
+@keyframes bg-pan {
+    from {
+        background-position: 0% center;
+    }
+
+    to {
+        background-position: -200% center;
+    }
+}
+
+body {
+    animation: bg-pan 10s linear infinite;
+    height: 100dvh;
+    height: 100vh;
+    color: var(--fontColor);
+    font-family: Verdana, Tahoma, sans-serif;
+    background: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad1));
+    background-size: 200%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Div que contém os quadrados do background */
+#bgTiles {
+    height: 100%;
+    width: 100dvw;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+    position: absolute;
+    z-index: -1;
+}
+
+.tile {
+    position: relative;
+}
+
+.tile:before {
+    content: "";
+    background-color: var(--tileColor);
+    inset: 1px;
+    position: absolute;
+}
+
+header {
+    width: fit-content;
+    margin-inline: auto;
+    margin-block: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--boxColor);
+    font-size: 36pt;
+}
+
+main>* {
+    padding: 1.5rem;
+    border-radius: 10px;
+    background-color: var(--boxColor);
+}
+
+.infoBox input, select {
+    background-color: var(--inputColor);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.infoBox> :is(input, select):is(:hover, :focus-visible) {
+    background-color: var(--inputHoverColor);
+}
+
+.infoBox :is(input, select):is(:focus-visible) {
+    outline: 3px solid var(--inputOutline);
+}
+
+.infoBox input[type=submit], button {
+    margin-top: 0.4rem;
+    background-color: var(--buttonColor);
+    color: var(--fontColor);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.infoBox input[type=submit]:hover, button:hover {
+    background-color: var(--buttonHoverColor);
+}
