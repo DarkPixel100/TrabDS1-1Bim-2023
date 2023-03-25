@@ -18,12 +18,14 @@ function createTiles(quantity) {
 
 function createGrid() {
   tileHolder.innerHTML = "";
-
-  const size = document.body.clientWidth > 800 ? 100 : 50;
-
+  tileHolder.style.height =
+    (document.body.clientHeight / visualViewport.height) * 100 + "%";
+  
+  const size = 100;
+  
   columns = Math.floor(document.body.clientWidth / size);
   rows = Math.floor(document.body.clientHeight / size);
-
+  
   tileHolder.style.setProperty("--columns", columns);
   tileHolder.style.setProperty("--rows", rows);
 

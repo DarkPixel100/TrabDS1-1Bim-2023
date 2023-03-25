@@ -1,4 +1,4 @@
-/* Variáveis de Cor*/
+/* Variáveis de Cor / Temas */
 .oceanic {
     --grad1: #66a3ff;
     --grad2: #9046ff;
@@ -11,13 +11,31 @@
     --buttonHoverColor: #006157;
     --selectionColor: #425B67;
     --gameInfoHolder: #546E7A;
-    --fontColor: white;
+    --fontColor: #FFFFFF;
+    --placeholderColor: #ffffffb3;
     --removeButton: #f07178;
     --removeButtonHover: #d25057;
+    --removeOutline: #7d2323;
 }
 
 * {
     box-sizing: border-box;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    --borderRadius: 10px;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad1));
+    background-size: 200%;
+    animation: bg-pan 10s linear infinite;
+    color: var(--fontColor);
+    font-family: Verdana, Tahoma, sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Animação do degradê do background */
@@ -31,24 +49,11 @@
     }
 }
 
-body {
-    animation: bg-pan 10s linear infinite;
-    height: 100dvh;
-    height: 100vh;
-    color: var(--fontColor);
-    font-family: Verdana, Tahoma, sans-serif;
-    background: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad1));
-    background-size: 200%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
 /* Div que contém os quadrados do background */
 #bgTiles {
-    height: 100%;
     width: 100dvw;
-    width: 100vw;
+    flex-grow: 1;
+    flex-basis: 0;
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-template-rows: repeat(var(--rows), 1fr);
@@ -63,51 +68,86 @@ body {
 .tile:before {
     content: "";
     background-color: var(--tileColor);
-    inset: 1px;
+    inset: .5px;
     position: absolute;
 }
 
+/* Cabeçalho da página */
 header {
-    width: fit-content;
+    max-width: 80%;
     margin-inline: auto;
     margin-block: 2rem;
-    padding: 1rem;
-    border-radius: 10px;
-    background-color: var(--boxColor);
-    font-size: 36pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+header h1 {
+    padding: 1rem;
+    border-radius: var(--borderRadius);
+    background-color: var(--boxColor);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Fromatando corpo principal */
 main>* {
     padding: 1.5rem;
-    border-radius: 10px;
+    border-radius: var(--borderRadius);
     background-color: var(--boxColor);
 }
 
-.infoBox input, select {
+/* Configurando inputs */
+input {
     background-color: var(--inputColor);
     color: white;
-    border: none;
-    border-radius: 10px;
+    border-radius: var(--borderRadius);
     padding: 1rem;
-    cursor: pointer;
 }
 
-.infoBox> :is(input, select):is(:hover, :focus-visible) {
+input:is(:hover, :focus-visible) {
     background-color: var(--inputHoverColor);
 }
 
-.infoBox :is(input, select):is(:focus-visible) {
+input:focus-visible, button:focus-visible {
     outline: 3px solid var(--inputOutline);
 }
 
-.infoBox input[type=submit], button {
-    margin-top: 0.4rem;
+.remove-btn:focus-visible {
+    outline: 3px solid var(--removeOutline);
+}
+
+input[type=file] {
+    font-size: .6rem;
+}
+
+input[type=file], ::placeholder {
+    color: var(--placeholderColor);
+}
+
+input[type=submit], button {
+    /* margin-top: 0.4rem; */
     background-color: var(--buttonColor);
     color: var(--fontColor);
     font-size: 1rem;
-    font-weight: bold;
 }
 
-.infoBox input[type=submit]:hover, button:hover {
+input[type=submit]:hover, button:hover {
     background-color: var(--buttonHoverColor);
+}
+
+
+/* Responsividade */
+@media screen and (width > 800px) {
+    body {
+        overflow: hidden;
+    }
+
+    header h1 {
+        font-size: 3rem;
+    }
+
+    .infoBox input[type=file] {
+        font-size: 1rem;
+    }
 }
