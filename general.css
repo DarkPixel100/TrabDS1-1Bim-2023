@@ -126,16 +126,17 @@ input[type=file], ::placeholder {
 }
 
 input[type=submit], button {
-    /* margin-top: 0.4rem; */
     background-color: var(--buttonColor);
     color: var(--fontColor);
-    font-size: 1rem;
 }
 
 input[type=submit]:hover, button:hover {
     background-color: var(--buttonHoverColor);
 }
 
+.infoBox:is(button, input[type=submit]) {
+    margin-top: 0.4rem;
+}
 
 /* Responsividade */
 @media screen and (width > 800px) {

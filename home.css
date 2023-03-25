@@ -4,6 +4,11 @@
     gap: 1rem;
 }
 
+#search:has(input:focus-visible) {
+    outline: 3px solid var(--inputOutline);
+    border-radius: var(--borderRadius);
+}
+
 #search-viewer input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
