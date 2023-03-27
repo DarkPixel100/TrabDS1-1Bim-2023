@@ -36,6 +36,7 @@ if (!isset($_SESSION["userID"])) {
         $resultado = $conexao->execute_query($sqlquery, [$_SESSION["userID"]]);
         $admin = mysqli_fetch_array($resultado, MYSQLI_ASSOC)["admin"];
 
+        // Barra de pesquisa (só disponível para admins)
         if ($admin) : ?>
             <form id="search-viewer" action="" method="post" autocomplete="off">
                 <span id="search">
@@ -76,6 +77,7 @@ if (!isset($_SESSION["userID"])) {
             $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
             $sqlquery = "SELECT gameID, titulo, sistema, ano, empresa, imgpath FROM Cartuchos";
+            // Completando a query depentendo do input da barra de pesquisa
             if ($admin && isset($_POST["submit"]) && $_POST["submit"] != "showMine") {
                 if ($_POST["submit"] == "search") {
                     $sqlquery = $sqlquery . " WHERE gameID = ? 
@@ -101,7 +103,6 @@ if (!isset($_SESSION["userID"])) {
             while ($data = mysqli_fetch_array($resultado, MYSQLI_ASSOC)) {
                 array_push($resultarray, $data);
             }
-            // var_dump($sqlquery);
 
             // Construindo a lista dinamicamente
             if (sizeof($resultarray) == 0) : ?>
