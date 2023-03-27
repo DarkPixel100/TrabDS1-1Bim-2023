@@ -77,7 +77,8 @@ ALTER TABLE `users`
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-INSERT INTO `users` ('1', 'admin', 'admin@mail.com', 'admin', '1');
+INSERT INTO `Users` ('1', 'admin', 'admin@mail.com', 'admin', '1');
+INSERT INTO `Users` ('2', 'nonadmin', 'nonadmin@mail.com', 'nonadmin', '0');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

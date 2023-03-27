@@ -16,28 +16,22 @@
 </head>
 
 <body class="oceanic">
-    <?php
-    if (!empty($_GET['msg'])) {
-        if ($_GET['msg'] == 'OK') {
-            echo "<main> Por favor, faça Login </main>";
-        }
-    }
-    ?>
     <header>
-        <h1>Login de Usuário</h1>
+        <h1>Cadastro de Usuário</h1>
     </header>
 
-    <main>
-        <h2>Login</h2>
-        <!-- form ou div com form dentro pro login -->
-        <form class="infoBox" action="./login_session.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <main>    
+        <form class="infoBox" action="./insert_data.php" method="post" enctype="multipart/form-data" autocomplete="off">
+            <label for="username">Nome de usuário:</label>
+            <input type="text" id="username" name="username" placeholder="Fulano da Silva" required>
+            
             <label for="email">E-mail:</label>
             <input type="text" id="email" name="email" placeholder="fulano@gmail.com" required>
 
             <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" placeholder="xxxxxx" required>
+            <input type="text" id="password" name="password" placeholder="xxxxxx" required>
 
-            <input type="submit" name="submit" value="Login" required>
+            <input type="submit" name="submit" value="Registrar" required>
         </form>
     </main>
 

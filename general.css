@@ -76,7 +76,7 @@ body {
 header {
     max-width: 80%;
     margin-inline: auto;
-    margin-block: 2rem;
+    margin-block: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,7 +87,6 @@ header h1 {
     border-radius: var(--borderRadius);
     background-color: var(--boxColor);
     font-size: 2rem;
-    margin-bottom: 1rem;
 }
 
 /* Fromatando corpo principal */
@@ -95,6 +94,13 @@ main>* {
     padding: 1.5rem;
     border-radius: var(--borderRadius);
     background-color: var(--boxColor);
+}
+
+main form {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 /* Configurando inputs */
@@ -109,7 +115,8 @@ input:is(:hover, :focus-visible) {
     background-color: var(--inputHoverColor);
 }
 
-input:focus-visible, button:focus-visible {
+input:focus-visible,
+button:focus-visible {
     outline: 3px solid var(--inputOutline);
 }
 
@@ -121,16 +128,19 @@ input[type=file] {
     font-size: .6rem;
 }
 
-input[type=file], ::placeholder {
+input[type=file],
+::placeholder {
     color: var(--placeholderColor);
 }
 
-input[type=submit], button {
+input[type=submit],
+button {
     background-color: var(--buttonColor);
     color: var(--fontColor);
 }
 
-input[type=submit]:hover, button:hover {
+input[type=submit]:hover,
+button:hover {
     background-color: var(--buttonHoverColor);
 }
 

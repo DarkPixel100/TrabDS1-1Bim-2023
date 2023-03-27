@@ -33,11 +33,14 @@ if (!isset($_SESSION["userID"])) {
         // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
         $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
         $sqlquery = "SELECT * FROM Users WHERE id = ?;";
-        $resultado = $conexao->execute_query($sqlquery, [$_SESSION["userID"]]);
+        $stmt = mysqli_prepare($conexao, $sqlquery);
+        $stmt->bind_param("i", $_SESSION["userID"]);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
         $admin = mysqli_fetch_array($resultado, MYSQLI_ASSOC)["admin"];
 
         // Barra de pesquisa (só disponível para admins)
-        if ($admin) : ?>
+        if ($admin): ?>
             <form id="search-viewer" action="" method="post" autocomplete="off">
                 <span id="search">
                     <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos..."><!--
@@ -52,18 +55,19 @@ if (!isset($_SESSION["userID"])) {
     </header>
     <main>
         <!-- Form de cadastro -->
-        <form class="infoBox" action="./cadastrando.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form class="infoBox" action="./inserecartucho.php" method="POST" enctype="multipart/form-data" autocomplete="off">
             <label for="titulo">Título do jogo:</label>
             <input type="text" id="titulo" name="titulo" placeholder="The Legend of Zelda: Ocarina of Time" required>
 
-            <label for="empresa">Noma da Empresa:</label>
+            <label for="empresa">Nome  da Empresa:</label>
             <input type="text" id="empresa" name="empresa" placeholder="Nintendo" required>
 
             <label for="sistema">Sistema:</label>
             <input type="text" id="sistema" name="sistema" placeholder="Nintendo 64" required>
 
             <label for="ano">Ano de lançamento:</label>
-            <input type="number" id="ano" name="ano" inputmode="numeric" min="1910" max="<?php echo (int)date("Y") ?>" placeholder="1910-<?php echo (int)date("Y") ?>" required>
+            <input type="number" id="ano" name="ano" inputmode="numeric" min="1910" max="<?php echo (int) date("Y") ?>"
+                placeholder="1910-<?php echo (int) date("Y") ?>" required>
 
             <label for="fotocartucho">Foto do cartucho:</label>
             <input type="file" id="fotocartucho" name="fotocartucho" accept="image/png, image/jpg, image/jpeg" required>
@@ -77,26 +81,36 @@ if (!isset($_SESSION["userID"])) {
             $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
             $sqlquery = "SELECT gameID, titulo, sistema, ano, empresa, imgpath FROM Cartuchos";
-            // Completando a query depentendo do input da barra de pesquisa
-            if ($admin && isset($_POST["submit"]) && $_POST["submit"] != "showMine") {
+            // Completando a query dependendo do input da barra de pesquisa
+            if ($admin && isset($_POST["submit"]) && !empty($_POST["submit"]) && $_POST["submit"] != "showMine") {
                 if ($_POST["submit"] == "search") {
-                    $sqlquery = $sqlquery . " WHERE gameID = ? 
+                    $sqlquery = $sqlquery .
+                    " WHERE gameID = ? 
                     OR userID = ? 
-                    OR titulo LIKE ? 
-                    OR titulo LIKE ? 
+                    OR titulo LIKE CONCAT ('%', ?) 
+                    OR titulo LIKE CONCAT (?, '%') 
+                    OR titulo LIKE CONCAT ('%', ?, '%') 
+                    OR sistema LIKE CONCAT ('%', ?) 
+                    OR sistema LIKE CONCAT (?, '%') 
+                    OR sistema LIKE CONCAT ('%', ?, '%') 
                     OR ano = ? 
-                    OR empresa LIKE ? 
-                    OR empresa LIKE ? 
+                    OR empresa LIKE CONCAT ('%', ?) 
+                    OR empresa LIKE CONCAT (?, '%') 
+                    OR empresa LIKE CONCAT ('%', ?, '%') 
                     ORDER BY titulo;";
-                    $resultado = $conexao->execute_query($sqlquery, [$_POST["pesquisa"], $_POST["pesquisa"], '%' . $_POST["pesquisa"], $_POST["pesquisa"] . '%', $_POST["pesquisa"], $_POST["pesquisa"] . '%', '%' . $_POST["pesquisa"]]);
+                    $stmt = mysqli_prepare($conexao, $sqlquery);
+                    $stmt->bind_param("iissssssisss", $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"]);
                 } else if ($_POST["submit"] == "showAll") {
-                    $sqlquery = $sqlquery . ";";
-                    $resultado = $conexao->execute_query($sqlquery);
+                    $sqlquery = $sqlquery . " ORDER BY userID;";
+                    $stmt = mysqli_prepare($conexao, $sqlquery);
                 }
             } else {
                 $sqlquery = $sqlquery . " WHERE userID = ? ORDER BY titulo;";
-                $resultado = $conexao->execute_query($sqlquery, [$_SESSION["userID"]]);
+                $stmt = mysqli_prepare($conexao, $sqlquery);
+                $stmt->bind_param("i", $_SESSION["userID"]);
             }
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
             // Inserindo os resultados da query em um array, para gerar a lista
             $resultarray = array();
@@ -105,43 +119,42 @@ if (!isset($_SESSION["userID"])) {
             }
 
             // Construindo a lista dinamicamente
-            if (sizeof($resultarray) == 0) : ?>
+            if (sizeof($resultarray) == 0): ?>
                 <p>Nenhum cartucho cadastrado.</p>
 
-            <?php else : ?>
+            <?php else: ?>
                 <form action="./removendo.php" method="POST" autocomplete="off">
-                    <?php foreach ($resultarray as $jogo) : ?>
-                        <li class="jogo" id="<?php echo $jogo["gameID"] ?>">
+                    <?php foreach ($resultarray as $jogo): ?>
+                        <li class="jogo" id="<?php echo $jogo["gameID"]; ?>">
                             <div class="imgBox">
-                                <img src="<?php echo $jogo["imgpath"] ?>">
+                                <img src="<?php echo $jogo["imgpath"]; ?>">
                             </div>
                             <div class="gameInfo">
                                 <h3 class="gameTitle">
-                                    <?php echo $jogo["titulo"] ?>
+                                    <?php echo $jogo["titulo"]; ?>
                                 </h3>
                                 <span>
                                     Por:
-                                    <?php echo $jogo["empresa"] ?>
+                                    <?php echo $jogo["empresa"]; ?>
                                 </span>
                                 <span>
                                     Publicado em:
-                                    <?php echo $jogo["ano"] ?>
+                                    <?php echo $jogo["ano"]; ?>
                                 </span>
                                 <span>
                                     Sistema:
-                                    <?php echo $jogo["sistema"] ?>
+                                    <?php echo $jogo["sistema"]; ?>
                                 </span>
                                 <button type="submit" class="remove-btn" name="removeID" value="<?php echo $jogo["gameID"]; ?>">
                                     <span class="fa fa-trash"></span>
                                 </button>
                             </div>
                         </li>
-                <?php endforeach;
+                    <?php endforeach;
 
-                endif;
-
-                exit; ?>
-                </form>
+            endif;
+            ?>
+            </form>
         </div>
     </main>
 </body>

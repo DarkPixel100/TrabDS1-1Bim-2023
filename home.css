@@ -2,6 +2,7 @@
 #search-viewer {
     display: flex;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
 #search:has(input:focus-visible) {
@@ -37,7 +38,7 @@ main {
     gap: 2rem;
 }
 
-main form, label[for=fotocartucho] {
+label[for=fotocartucho] {
     height: fit-content;
     display: flex;
     flex-direction: column;

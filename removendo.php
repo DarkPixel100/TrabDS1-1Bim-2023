@@ -6,13 +6,19 @@ if (isset($_POST["removeID"])) {
 
     // Removendo a imagem dos arquivos
     $sqlquery = "SELECT imgpath FROM Cartuchos WHERE gameID = ?";
-    $resultado = $conexao->execute_query($sqlquery, [$_POST["removeID"]]);
+    $stmt = mysqli_prepare($conexao, $sqlquery);
+    $stmt->bind_param("i", $_POST["removeID"]);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
     $path = mysqli_fetch_array($resultado, MYSQLI_ASSOC)["imgpath"];
     unlink($path);
 
     // Removendo o cartucho do banco
     $sqlquery = "DELETE FROM Cartuchos WHERE gameID = ?";
-    $resultado = $conexao->execute_query($sqlquery, [$_POST["removeID"]]);
+    $stmt = mysqli_prepare($conexao, $sqlquery);
+    $stmt->bind_param("i", $_POST["removeID"]);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
     // Retornando à página anterior
     header("Location: ./home.php");
