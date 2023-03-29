@@ -1,3 +1,14 @@
+/* Botão de login */
+#logout {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+#logout>input {
+    font-size: 1.5rem;
+}
+
 /* Barra de pesquisa */
 #search-viewer {
     display: flex;
@@ -23,18 +34,19 @@
     border-radius: var(--borderRadius);
 }
 
+#search {
+    display: flex;
+}
+
 #search-viewer #search-btn {
-    border-top-right-radius: var(--borderRadius);
-    border-bottom-right-radius: var(--borderRadius);
+    border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
 /* Onde o conteúdo principal é contido */
 main {
+    width: 90%;
     display: grid;
     grid-template-columns: 1fr;
-    width: 90%;
-    margin-inline: auto;
-    margin-block: 1rem;
     gap: 2rem;
 }
 

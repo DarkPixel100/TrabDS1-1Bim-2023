@@ -20,16 +20,17 @@
         <h1>Cadastro de Usuário</h1>
     </header>
 
-    <main>    
-        <form class="infoBox" action="./insert_data.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <main>
+        <!-- Form de registro -->
+        <form class="infoBox" action="./cadastra_user.php" method="post" enctype="multipart/form-data" autocomplete="off">
             <label for="username">Nome de usuário:</label>
-            <input type="text" id="username" name="username" placeholder="Fulano da Silva" required>
-            
+            <input type="text" id="username" name="username" placeholder="Fulano da Silva" minlength="5" required>
+
             <label for="email">E-mail:</label>
             <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" name="email" placeholder="fulano@gmail.com" required>
 
             <label for="password">Senha:</label>
-            <input type="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="password" name="password" placeholder="....." required>
+            <input type="password" id="password" name="password" placeholder="Senha%123" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" oninvalid="this.setCustomValidity('A senha deve ter:\n-8 ou mais caracteres;\n-1 ou mais número;')" required>
 
             <input type="submit" name="submit" value="Registrar" required>
         </form>

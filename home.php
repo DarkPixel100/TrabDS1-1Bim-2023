@@ -1,8 +1,16 @@
 <?php
 // Início da sessão
 session_start();
+
+// Verificando o logout
+if (isset($_POST["submit"]) && $_POST["submit"] == "Logout") {
+    session_unset();
+    session_destroy();
+}
+
+// Verificando se está logado
 if (!isset($_SESSION["userID"])) {
-    header("Location: ./login.php");
+    header("Location: login.php?msg=OK"); 
 }
 ?>
 <!DOCTYPE html>
@@ -26,39 +34,29 @@ if (!isset($_SESSION["userID"])) {
 
 <body class="oceanic">
     <header>
-
-        <?php
-        if (isset($_POST["logout"])) {
-            session_unset();
-            session_destroy();
-        }
-        ?>
-
-        <form action="" method="post" autocomplete="off">
-            <input type="submit" name="logout" value="logout">
+        <form id="logout" action="" method="post" autocomplete="off">
+            <input type="submit" name="submit" value="Logout">
         </form>
 
         <h1>Cadastro de Cartuchos</h1>
 
         <?php
         // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
-        $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
+        $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
         $sqlquery = "SELECT * FROM Users WHERE id = ?;";
         $stmt = mysqli_prepare($conexao, $sqlquery);
         $stmt->bind_param("i", $_SESSION["userID"]);
         $stmt->execute();
         $resultado = $stmt->get_result();
-        var_dump($resultado);
-        $admin = mysqli_fetch_array($resultado, MYSQLI_ASSOC)["admin"];
+        $admin = mysqli_fetch_assoc($resultado)["admin"];
 
 
         // Barra de pesquisa (só disponível para admins)
-        if ($admin): ?>
+        if ($admin) : ?>
             <form id="search-viewer" action="" method="post" autocomplete="off">
                 <span id="search">
                     <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos...">
-                    <!--
-             --><button id="search-btn" type="submit" name="submit" value="search">
+                    <button id="search-btn" type="submit" name="submit" value="search">
                         <span class="fa fa-search"></span>
                     </button>
                 </span>
@@ -69,8 +67,7 @@ if (!isset($_SESSION["userID"])) {
     </header>
     <main>
         <!-- Form de cadastro -->
-        <form class="infoBox" action="./inserecartucho.php" method="POST" enctype="multipart/form-data"
-            autocomplete="off">
+        <form class="infoBox" action="./insere_cartucho.php" method="POST" enctype="multipart/form-data" autocomplete="off">
             <label for="titulo">Título do jogo:</label>
             <input type="text" id="titulo" name="titulo" placeholder="The Legend of Zelda: Ocarina of Time" required>
 
@@ -81,8 +78,7 @@ if (!isset($_SESSION["userID"])) {
             <input type="text" id="sistema" name="sistema" placeholder="Nintendo 64" required>
 
             <label for="ano">Ano de lançamento:</label>
-            <input type="number" id="ano" name="ano" inputmode="numeric" min="1910" max="<?php echo (int) date("Y") ?>"
-                placeholder="1910-<?php echo (int) date("Y") ?>" required>
+            <input type="number" id="ano" name="ano" inputmode="numeric" min="1910" max="<?php echo (int) date("Y") ?>" placeholder="1910-<?php echo (int) date("Y") ?>" required>
 
             <label for="fotocartucho">Foto do cartucho:</label>
             <input type="file" id="fotocartucho" name="fotocartucho" accept="image/png, image/jpg, image/jpeg" required>
@@ -92,9 +88,7 @@ if (!isset($_SESSION["userID"])) {
 
         <div class="infoBox" id="gameList">
             <?php
-            // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
-            $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
-
+            // Fazendo a query no banco, buscando todos os cartuchos do usuário logados
             $sqlquery = "SELECT gameID, titulo, sistema, ano, empresa, imgpath FROM Cartuchos";
 
             // Completando a query dependendo do input da barra de pesquisa
@@ -135,12 +129,12 @@ if (!isset($_SESSION["userID"])) {
             }
 
             // Construindo a lista dinamicamente
-            if (sizeof($resultarray) == 0): ?>
+            if (sizeof($resultarray) == 0) : ?>
                 <p>Nenhum cartucho cadastrado.</p>
 
-            <?php else: ?>
+            <?php else : ?>
                 <form action="./removendo.php" method="POST" autocomplete="off">
-                    <?php foreach ($resultarray as $jogo): ?>
+                    <?php foreach ($resultarray as $jogo) : ?>
                         <li class="jogo" id="<?php echo $jogo["gameID"]; ?>">
                             <div class="imgBox">
                                 <img src="<?php echo $jogo["imgpath"]; ?>">
@@ -166,11 +160,11 @@ if (!isset($_SESSION["userID"])) {
                                 </button>
                             </div>
                         </li>
-                    <?php endforeach;
+                <?php endforeach;
 
-            endif;
-            ?>
-            </form>
+                endif;
+                ?>
+                </form>
         </div>
     </main>
 </body>

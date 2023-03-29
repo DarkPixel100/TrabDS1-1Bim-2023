@@ -17,6 +17,14 @@
 
 <body class="oceanic">
     <?php
+    // Checando se já está logado
+    session_start();
+    if (isset($_SESSION["userID"])) {
+        header("Location: ./home.php");
+    }
+    session_destroy();
+    
+    // Requisitando login após registro
     if (!empty($_GET['msg'])) {
         if ($_GET['msg'] == 'OK') {
             echo "<main> <h2> Por favor, faça Login</h2> </main>";
@@ -30,16 +38,16 @@
     </header>
 
     <main>
-        <!-- form ou div com form dentro pro login -->
+        <!-- Form de login -->
         <form class="infoBox" action="./login_session.php" method="post" enctype="multipart/form-data" autocomplete="off">
-            <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" placeholder="fulano@gmail.com" required>
+            <label for="emailORuser">Email ou Nome de Usuário:</label>
+            <input type="text" id="emailORuser" name="emailORuser" placeholder="fulano@gmail.com ou fulano_12" required>
 
             <label for="password">Senha:</label>
-            <input type="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="password" name="password" placeholder="....." required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
 
             <input type="submit" name="submit" value="Login" required>
-            <a href="./register.php"> <button type="button"> Registrar </Button> </a>
+            <a href="./register.php"> <button type="button">Criar Conta</Button> </a>
         </form>
     </main>
 

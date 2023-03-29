@@ -8,7 +8,7 @@ if (isset($_POST["submit"])) {
     move_uploaded_file($_FILES["fotocartucho"]["tmp_name"], $target_file); // Salvando arquivo
 
     // Inserindo o cartucho cadastrado no banco
-    $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
+    $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
     $sqlquery = "INSERT INTO Cartuchos (userID, titulo, sistema, ano, empresa, imgpath) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_prepare($conexao, $sqlquery);

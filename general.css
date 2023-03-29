@@ -119,8 +119,7 @@ input, button {
     padding: 1rem;
 }
 
-:is(input,
-button):is(:hover, :focus-visible) {
+:is(input, button):is(:hover, :focus-visible) {
     background-color: var(--inputHoverColor);
 }
 
@@ -158,7 +157,7 @@ button:hover {
     margin-top: 0.4rem;
 }
 
-a>*{
+a>* {
     width: 100%;
 }
 
@@ -170,6 +169,10 @@ a>*{
 
     header h1 {
         font-size: 3rem;
+    }
+
+    main {
+        width: 50%;
     }
 
     .infoBox input[type=file] {
