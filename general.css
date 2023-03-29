@@ -38,6 +38,7 @@ body {
     flex-direction: column;
 }
 
+
 /* Animação do degradê do background */
 @keyframes bg-pan {
     from {
@@ -89,6 +90,12 @@ header h1 {
     font-size: 2rem;
 }
 
+main {
+    width: 90%;
+    margin-inline: auto;
+    margin-block: 1rem;
+}
+
 /* Fromatando corpo principal */
 main>* {
     padding: 1.5rem;
@@ -103,15 +110,17 @@ main form {
     gap: 1rem;
 }
 
+
 /* Configurando inputs */
-input {
+input, button {
     background-color: var(--inputColor);
     color: white;
     border-radius: var(--borderRadius);
     padding: 1rem;
 }
 
-input:is(:hover, :focus-visible) {
+:is(input,
+button):is(:hover, :focus-visible) {
     background-color: var(--inputHoverColor);
 }
 
@@ -142,10 +151,15 @@ button {
 input[type=submit]:hover,
 button:hover {
     background-color: var(--buttonHoverColor);
+    cursor: pointer;
 }
 
 .infoBox:is(button, input[type=submit]) {
     margin-top: 0.4rem;
+}
+
+a>*{
+    width: 100%;
 }
 
 /* Responsividade */

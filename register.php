@@ -26,10 +26,10 @@
             <input type="text" id="username" name="username" placeholder="Fulano da Silva" required>
             
             <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" placeholder="fulano@gmail.com" required>
+            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" name="email" placeholder="fulano@gmail.com" required>
 
             <label for="password">Senha:</label>
-            <input type="text" id="password" name="password" placeholder="xxxxxx" required>
+            <input type="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="password" name="password" placeholder="....." required>
 
             <input type="submit" name="submit" value="Registrar" required>
         </form>

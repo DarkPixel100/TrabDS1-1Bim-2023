@@ -1,7 +1,6 @@
 <?php
 // Início da sessão
 session_start();
-$_SESSION["userID"] = 1;
 if (!isset($_SESSION["userID"])) {
     header("Location: ./login.php");
 }
@@ -27,23 +26,38 @@ if (!isset($_SESSION["userID"])) {
 
 <body class="oceanic">
     <header>
+
+        <?php
+        if (isset($_POST["logout"])) {
+            session_unset();
+            session_destroy();
+        }
+        ?>
+
+        <form action="" method="post" autocomplete="off">
+            <input type="submit" name="logout" value="logout">
+        </form>
+
         <h1>Cadastro de Cartuchos</h1>
 
         <?php
         // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
-        $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+        $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
         $sqlquery = "SELECT * FROM Users WHERE id = ?;";
         $stmt = mysqli_prepare($conexao, $sqlquery);
         $stmt->bind_param("i", $_SESSION["userID"]);
         $stmt->execute();
         $resultado = $stmt->get_result();
+        var_dump($resultado);
         $admin = mysqli_fetch_array($resultado, MYSQLI_ASSOC)["admin"];
+
 
         // Barra de pesquisa (só disponível para admins)
         if ($admin): ?>
             <form id="search-viewer" action="" method="post" autocomplete="off">
                 <span id="search">
-                    <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos..."><!--
+                    <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos...">
+                    <!--
              --><button id="search-btn" type="submit" name="submit" value="search">
                         <span class="fa fa-search"></span>
                     </button>
@@ -55,11 +69,12 @@ if (!isset($_SESSION["userID"])) {
     </header>
     <main>
         <!-- Form de cadastro -->
-        <form class="infoBox" action="./inserecartucho.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form class="infoBox" action="./inserecartucho.php" method="POST" enctype="multipart/form-data"
+            autocomplete="off">
             <label for="titulo">Título do jogo:</label>
             <input type="text" id="titulo" name="titulo" placeholder="The Legend of Zelda: Ocarina of Time" required>
 
-            <label for="empresa">Nome  da Empresa:</label>
+            <label for="empresa">Nome da Empresa:</label>
             <input type="text" id="empresa" name="empresa" placeholder="Nintendo" required>
 
             <label for="sistema">Sistema:</label>
@@ -78,14 +93,15 @@ if (!isset($_SESSION["userID"])) {
         <div class="infoBox" id="gameList">
             <?php
             // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
-            $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+            $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
 
             $sqlquery = "SELECT gameID, titulo, sistema, ano, empresa, imgpath FROM Cartuchos";
+
             // Completando a query dependendo do input da barra de pesquisa
             if ($admin && isset($_POST["submit"]) && !empty($_POST["submit"]) && $_POST["submit"] != "showMine") {
                 if ($_POST["submit"] == "search") {
                     $sqlquery = $sqlquery .
-                    " WHERE gameID = ? 
+                        " WHERE gameID = ? 
                     OR userID = ? 
                     OR titulo LIKE CONCAT ('%', ?) 
                     OR titulo LIKE CONCAT (?, '%') 

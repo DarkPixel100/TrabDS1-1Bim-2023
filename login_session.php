@@ -1,9 +1,9 @@
 <?php
 
 $email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+$password = $_POST['password'];
 
-$conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+$conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
 
 $sqlquery = "SELECT * from Users WHERE email=?"; 
 $stmt = mysqli_prepare($conexao, $sqlquery);
@@ -14,11 +14,10 @@ if ($resultado = $stmt->get_result()) {
     if ($linha = $resultado->fetch_assoc()) {
         if (password_verify($password, $linha['password'])) {
             session_start();
-            $_SESSION['email'] = $linha['email'];
+            $_SESSION['userID'] = $linha['userID'];
             header("Location: ./home.php");
         }
     } 
 };
-
 
 ?>

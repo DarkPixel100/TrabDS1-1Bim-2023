@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_POST["removeID"])) {
-    $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+    $conexao = mysqli_connect("localhost", "root", "", "DS1-ListaJogos-Diego-Sofia");
 
     // Removendo a imagem dos arquivos
     $sqlquery = "SELECT imgpath FROM Cartuchos WHERE gameID = ?";
