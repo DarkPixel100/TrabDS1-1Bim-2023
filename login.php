@@ -21,7 +21,7 @@
         if ($_GET['msg'] == 'OK') {
             echo "<main> <h2> Por favor, faça Login</h2> </main>";
         } else if ($_GET['msg'] == 'ERROR') {
-            echo mysqli_error();
+            echo mysqli_error($conexao);
         }
     }
     ?>
