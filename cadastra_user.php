@@ -25,7 +25,7 @@ if (isset($_POST["submit"])) {
         header ("Location: login.php?msg=OK"); 
     } 
     else {
-        header ("Location: login.php=ERRO");
+        header ("Location: login.php?msg=ERROR");
     }
 }
 ?>

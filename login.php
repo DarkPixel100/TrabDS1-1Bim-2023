@@ -29,7 +29,8 @@
         if ($_GET['msg'] == 'OK') {
             echo "<main> <h2> Por favor, faça Login</h2> </main>";
         } else if ($_GET['msg'] == 'ERROR') {
-            echo mysqli_error($conexao);
+            $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+            echo "<main> <h2> Login e/ou senha incorreto(s) </h2> </main>";
         }
     }
     ?>

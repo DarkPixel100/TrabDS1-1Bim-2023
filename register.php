@@ -30,7 +30,7 @@
             <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" name="email" placeholder="fulano@gmail.com" required>
 
             <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" placeholder="Senha%123" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" oninvalid="this.setCustomValidity('A senha deve ter:\n-8 ou mais caracteres;\n-1 ou mais número;')" required>
+            <input type="password" id="password" name="password" placeholder="Senha%123" pattern="/^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,}$/g" oninvalid="this.setCustomValidity('A senha deve ter:\n-8 ou mais caracteres;\n-1 ou mais número;')" required>
 
             <input type="submit" name="submit" value="Registrar" required>
         </form>
