@@ -10,7 +10,7 @@ if (isset($_POST["submit"])) {
     // Inserindo o cartucho cadastrado no banco
     $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
-    $sqlquery = "INSERT INTO Cartuchos (userID, titulo, sistema, ano, empresa, imgpath) VALUES (?, ?, ?, ?, ?, ?);";
+    $sqlquery = "INSERT INTO cartuchos (userID, titulo, sistema, ano, empresa, imgpath) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_prepare($conexao, $sqlquery);
     $stmt->bind_param("ississ", 
     $_SESSION["userID"], 

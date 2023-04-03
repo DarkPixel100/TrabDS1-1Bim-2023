@@ -11,7 +11,7 @@ if (isset($_POST["submit"])) {
     $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
     // Inserindo o Usuário no banco
-    $sqlquery = "INSERT INTO Users (username, email, password) VALUES(?, ?, ?);";
+    $sqlquery = "INSERT INTO users (username, email, password) VALUES(?, ?, ?);";
     $stmt = mysqli_prepare($conexao, $sqlquery);
     $stmt->bind_param(
         "sss",

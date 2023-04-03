@@ -20,7 +20,7 @@ if (!isset($_SESSION["userID"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Cartuchos</title>
+    <title>Cadastro de cartuchos</title>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./general.css">
     <link rel="stylesheet" href="./home.css">
@@ -41,12 +41,12 @@ if (!isset($_SESSION["userID"])) {
             </button>
         </form>
 
-        <h1>Cadastro de Cartuchos</h1>
+        <h1>Cadastro de cartuchos</h1>
 
         <?php
         // Fazendo a query no banco, buscando todos os cartuchos do usuário logado
         $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
-        $sqlquery = "SELECT * FROM Users WHERE id = ?;";
+        $sqlquery = "SELECT * FROM users WHERE id = ?;";
         $stmt = mysqli_prepare($conexao, $sqlquery);
         $stmt->bind_param("i", $_SESSION["userID"]);
         $stmt->execute();
@@ -92,7 +92,7 @@ if (!isset($_SESSION["userID"])) {
         <div class="infoBox" id="gameList">
             <?php
             // Fazendo a query no banco, buscando todos os cartuchos do usuário logados
-            $sqlquery = "SELECT id, username, gameID, titulo, sistema, ano, empresa, imgpath FROM Cartuchos JOIN Users WHERE userID = id";
+            $sqlquery = "SELECT id, username, gameID, titulo, sistema, ano, empresa, imgpath FROM cartuchos JOIN users WHERE userID = id";
 
             // Completando a query dependendo do input da barra de pesquisa
             if ($admin && isset($_POST["submit"]) && !empty($_POST["submit"]) && $_POST["submit"] != "showMine") {

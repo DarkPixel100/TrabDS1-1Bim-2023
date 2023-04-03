@@ -5,7 +5,7 @@ if (isset($_POST["removeID"])) {
     $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
     // Removendo a imagem dos arquivos
-    $sqlquery = "SELECT imgpath FROM Cartuchos WHERE gameID = ?";
+    $sqlquery = "SELECT imgpath FROM cartuchos WHERE gameID = ?";
     $stmt = mysqli_prepare($conexao, $sqlquery);
     $stmt->bind_param("i", $_POST["removeID"]);
     $stmt->execute();
@@ -14,7 +14,7 @@ if (isset($_POST["removeID"])) {
     unlink($path);
 
     // Removendo o cartucho do banco
-    $sqlquery = "DELETE FROM Cartuchos WHERE gameID = ?";
+    $sqlquery = "DELETE FROM cartuchos WHERE gameID = ?";
     $stmt = mysqli_prepare($conexao, $sqlquery);
     $stmt->bind_param("i", $_POST["removeID"]);
     $stmt->execute();

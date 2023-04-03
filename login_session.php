@@ -7,7 +7,7 @@ $password = $_POST["password"];
 $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
 // Buscando o usuário no banco
-$sqlquery = "SELECT * from Users WHERE email = ? OR username = ?";
+$sqlquery = "SELECT * from users WHERE email = ? OR username = ?";
 $stmt = mysqli_prepare($conexao, $sqlquery);
 $stmt->bind_param('ss', $emailORusername, $emailORusername);
 $stmt->execute();
