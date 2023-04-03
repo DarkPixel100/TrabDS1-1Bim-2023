@@ -100,25 +100,17 @@ if (!isset($_SESSION["userID"])) {
                 usuário que cadastrou o cartucho, titulo, sistema, ano de publicação ou empresa */
                 if ($_POST["submit"] == "search") {
                     $sqlquery = $sqlquery .
-                        " AND (LOWER(username) LIKE CONCAT ('%', LOWER(?)) 
-                    OR LOWER(username) LIKE CONCAT (LOWER(?), '%') 
-                    OR LOWER(username) LIKE CONCAT ('%', LOWER(?), '%')
+                        " AND (LOWER(username) LIKE CONCAT ('%', LOWER(?), '%')
                     OR id = ? 
                     OR gameID = ? 
-                    OR LOWER(titulo) LIKE CONCAT ('%', LOWER(?)) 
-                    OR LOWER(titulo) LIKE CONCAT (LOWER(?), '%') 
                     OR LOWER(titulo) LIKE CONCAT ('%', LOWER(?), '%') 
-                    OR LOWER(sistema) LIKE CONCAT ('%', LOWER(?)) 
-                    OR LOWER(sistema) LIKE CONCAT (LOWER(?), '%') 
                     OR LOWER(sistema) LIKE CONCAT ('%', LOWER(?), '%') 
                     OR ano = ? 
-                    OR LOWER(empresa) LIKE CONCAT ('%', LOWER(?)) 
-                    OR LOWER(empresa) LIKE CONCAT (LOWER(?), '%') 
                     OR LOWER(empresa) LIKE CONCAT ('%', LOWER(?), '%')) 
                     GROUP BY gameID 
                     ORDER BY ano;";
                     $stmt = mysqli_prepare($conexao, $sqlquery);
-                    $stmt->bind_param("sssiissssssisss", $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"]);
+                    $stmt->bind_param("siissis", $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"], $_POST["pesquisa"]);
                 } else if ($_POST["submit"] == "showAll") {
                     // Mostrar todos os cartuchos cadastrados
                     $sqlquery = $sqlquery . " GROUP BY gameID ORDER BY ano;";
