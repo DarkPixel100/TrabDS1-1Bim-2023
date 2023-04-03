@@ -1,12 +1,13 @@
-/* Botão de login */
+/* Botão de logout */
 #logout {
     position: absolute;
     right: 1rem;
     top: 1rem;
 }
 
-#logout>input {
-    font-size: 1.5rem;
+#logout button {
+    font-size: .8rem;
+    padding: 1em;
 }
 
 /* Barra de pesquisa */
@@ -50,6 +51,35 @@ main {
     gap: 2rem;
 }
 
+#popup {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background-color: #000000f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+@keyframes imgGrow {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#popup img {
+    animation: imgGrow .05s ease-in;
+    min-height: 30%;
+    max-height: 40%;
+    max-width: 90%;
+    user-select: none;
+}
+
 label[for=fotocartucho] {
     height: fit-content;
     display: flex;
@@ -59,10 +89,18 @@ label[for=fotocartucho] {
 
 /* Formatação da lista de Jogos */
 #gameList {
+    position: relative;
     box-sizing: content-box;
     height: calc(((1.5rem * 2 + 10rem) * 3) + (1rem * 2));
     overflow-y: hidden;
     text-align: center;
+}
+
+#results {
+    position: absolute;
+    top: .3rem;
+    left: .3rem;
+    font-size: .9rem;
 }
 
 #gameList form {
@@ -74,6 +112,7 @@ label[for=fotocartucho] {
 
 /* Formatação do container com as informações do jogo */
 .jogo {
+    position: relative;
     box-sizing: content-box;
     height: 10rem;
     background-color: var(--gameInfoHolder);
@@ -85,6 +124,13 @@ label[for=fotocartucho] {
     padding: 1.5rem;
     border-radius: var(--borderRadius);
     margin-right: .5rem;
+}
+
+.jogo .gameID {
+    position: absolute;
+    left: .25rem;
+    writing-mode: vertical-lr;
+    transform: rotateZ(180deg);
 }
 
 /* Holder da imagem */
@@ -144,6 +190,10 @@ label[for=fotocartucho] {
 
 /* Responsividade */
 @media screen and (width > 800px) {
+    #logout button {
+        font-size: 1rem;
+    }
+
     main {
         grid-template-columns: 1fr 1fr;
     }
@@ -156,6 +206,14 @@ label[for=fotocartucho] {
         height: unset;
         flex-direction: column;
         gap: 1rem;
+    }
+
+    .jogo .gameID {
+        position: absolute;
+        writing-mode: horizontal-tb;
+        top: .15rem;
+        left: 50%;
+        transform: translate(-50%, 0);
     }
 
     .jogo .imgBox {
@@ -172,6 +230,7 @@ label[for=fotocartucho] {
 }
 
 @media screen and (930px > width) {
+
     #search-viewer {
         flex-direction: column;
     }

@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Tempo de geração: 31-Mar-2023 às 11:29
--- Versão do servidor: 8.0.32-0ubuntu0.22.04.2
--- versão do PHP: 7.3.33-8+ubuntu22.04.1+deb.sury.org+1
+-- Host: 127.0.0.1
+-- Generation Time: Apr 03, 2023 at 06:06 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,85 +18,87 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `DS1-ListaJogos-Diego-Sofia`
+-- Database: `ds1-listajogos-diego-sofia`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `Cartuchos`
+-- Table structure for table `cartuchos`
 --
 
-CREATE TABLE `Cartuchos` (
-  `userID` int NOT NULL,
-  `gameID` int NOT NULL,
+CREATE TABLE `cartuchos` (
+  `userID` int(11) NOT NULL,
+  `gameID` int(11) NOT NULL,
   `titulo` text NOT NULL,
   `sistema` text NOT NULL,
-  `ano` year NOT NULL,
+  `ano` year(4) NOT NULL,
   `empresa` text NOT NULL,
   `imgpath` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `Users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `Users` (
-  `id` int NOT NULL,
-  `username` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `admin` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `Users`
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `admin`) VALUES(1, 'admin', 'admin@mail.com', '$2y$10$05C4JMUNfv6Qzse3k6V0aeR7JlwhJ810VLyd78AoD2WPIvuY7P0Q2', 1);
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Índices para tabelas despejadas
+-- Indexes for table `cartuchos`
 --
+ALTER TABLE `cartuchos`
+  ADD PRIMARY KEY (`gameID`),
+  ADD KEY `userID` (`userID`);
 
 --
--- Índices para tabela `Cartuchos`
+-- Indexes for table `users`
 --
-ALTER TABLE `Cartuchos`
-  ADD PRIMARY KEY (`userID`,`gameID`),
-  ADD KEY `gameID` (`gameID`);
-
---
--- Índices para tabela `Users`
---
-ALTER TABLE `Users`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `Cartuchos`
+-- AUTO_INCREMENT for table `cartuchos`
 --
-ALTER TABLE `Cartuchos`
-  MODIFY `gameID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+ALTER TABLE `cartuchos`
+  MODIFY `gameID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT de tabela `Users`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `Users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Restrições para despejos de tabelas
+-- Constraints for dumped tables
 --
 
 --
--- Limitadores para a tabela `Cartuchos`
+-- Constraints for table `cartuchos`
 --
-ALTER TABLE `Cartuchos`
-  ADD CONSTRAINT `Cartuchos_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `cartuchos`
+  ADD CONSTRAINT `cartuchos_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
