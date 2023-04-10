@@ -173,9 +173,12 @@ label[for=fotocartucho] {
     font-weight: bolder;
 }
 
-/* Botão para remover o cartucho cadastrado */
-.jogo .remove-btn {
-    background-color: var(--removeButton);
+/* Botão para remover ou editar o cartucho cadastrado */
+form > .buttons {
+    text-align: center;
+}
+
+.jogo button {
     border-radius: var(--borderRadius);
     border: none;
     margin: 0;
@@ -184,8 +187,28 @@ label[for=fotocartucho] {
     width: fit-content;
 }
 
-.jogo button:hover {
+.remove-btn {
+    background-color: var(--removeButton);
+}
+
+.edit-btn {
+    background-color: var(--editButton);
+}
+
+.remove-btn:hover, .remove-btn:focus-visible {
     background-color: var(--removeButtonHover);
+}
+
+.edit-btn:hover, .edit-btn:focus-visible {
+    background-color: var(--editButtonHover);
+}
+
+.remove-btn:focus-visible {
+    outline: 3px solid var(--removeButtonOutline);
+}
+
+.edit-btn:focus-visible {
+    outline: 3px solid var(--editButtonOutline);
 }
 
 /* Responsividade */

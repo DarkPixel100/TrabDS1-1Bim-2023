@@ -15,7 +15,10 @@
     --placeholderColor: #ffffffb3;
     --removeButton: #f07178;
     --removeButtonHover: #d25057;
-    --removeOutline: #7d2323;
+    --removeButtonOutline: #7d2323;
+    --editButton: #ffac2e;
+    --editButtonHover: #e2931d;
+    --editButtonOutline: #ad6d0d;
 }
 
 * {
@@ -100,13 +103,13 @@ main {
 }
 
 /* Fromatando corpo principal */
-main>* {
+.infoBox {
     padding: 1.5rem;
     border-radius: var(--borderRadius);
     background-color: var(--boxColor);
 }
 
-main form {
+main form, .infoBox {
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -129,10 +132,6 @@ input, button {
 input:focus-visible,
 button:focus-visible {
     outline: 3px solid var(--inputOutline);
-}
-
-.remove-btn:focus-visible {
-    outline: 3px solid var(--removeOutline);
 }
 
 input[type=file] {
