@@ -32,7 +32,7 @@ class PDF extends FPDF
     function ImprovedTable($header, $data)
     {
         // Table Column widths
-        $w = array(18, 35, 20, 30, 30, 15, 25, 20);
+        $w = array(18, 35, 20, 30, 30, 15, 25, 10);
 
         // Table Header
         for ($i = 0; $i < count($header); $i++)
@@ -40,25 +40,26 @@ class PDF extends FPDF
         $this->Ln();
 
         // Table Data
+        $start_x = $this->GetX();
+        $current_y = $this->GetY();
+        $current_x = $this->GetX();
         foreach ($data as $row) {
-            $this->Cell($w[0], $w[7], $row[0], 'LR', 0, 'C');
-            $this->Cell($w[1], $w[7], $row[1], 'LR', 0, 'C');
-            $this->Cell($w[2], $w[7], $row[2], 'LR', 0, 'C');
-            $this->Cell($w[3], $w[7], $row[3], 'LR', 0, 'C');
-            $this->Cell($w[4], $w[7], $row[4], 'LR', 0, 'C');
-            $this->Cell($w[5], $w[7], $row[5], 'LR', 0, 'C');
-            $this->Cell($w[6], $w[7], $row[6], 'LR', 0, 'C');
-            $this->Image($row[7], null, null, $w[7], $w[7]);
-            $this->Ln(0);
-            $this->Cell(array_sum($w), 0, '', 1);
+            for ($i = 0; $i < sizeof($row) - 1; $i++) {
+                $this->MultiCell($w[$i], 10, $row[$i], 1, 'C');
+                $current_x += $w[$i];
+                $this->SetXY($current_x, $current_y);
+            }
+            $this->Image($row[7], null, null, 0, 10);
+            $this->Cell(0, 10,'', 0, 1);
             $this->Ln();
+            $current_x = $start_x;
+            $current_y = $this->GetY();
         }
-        // Closing line
     }
 }
 
 // Column headings
-$header = array('UserID', 'Username', 'GameID', 'Título', 'Sistema', 'Ano', 'Empresa', 'Imagem');
+$header = array('UserID', 'Username', 'GameID', 'Título', 'Sistema', 'Ano', 'Empresa', 'Img');
 
 // Data loading
 $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
@@ -74,7 +75,7 @@ while ($dados = mysqli_fetch_array($resultado, MYSQLI_NUM)) {
 // Instanciation of inherited class
 $pdf = new PDF();
 $pdf->AliasNbPages();
-$pdf->SetFont('Arial', '', 12);
+$pdf->SetFont('Arial', '', 8);
 $pdf->AddPage();
 $pdf->ImprovedTable($header, $resultarray);
 $pdf->Output();
