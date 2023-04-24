@@ -23,7 +23,7 @@ function popup(data) {
     `;
   } else if (data["type"] == "edit") {
     innerHTML = `
-    <form class="infoBox" action="editando.php" method="POST" enctype="multipart/form-data>
+    <form class="infoBox" action="editando.php" method="POST" enctype="multipart/form-data" autocomplete="off">
       <h3>Editar dados do cartucho:</h3>
       <label for="titulo">Novo título:</label>
             <input type="text" id="titulo" name="titulo">
@@ -37,7 +37,9 @@ function popup(data) {
             <label for="ano">Alterar ano de lançamento:</label>
             <input type="number" id="ano" name="ano" inputmode="numeric" step="1" min="1910" max="${new Date().getFullYear()}" placeholder="1910-${new Date().getFullYear()}">
       <span class="buttons">
-        <button type="submit" name="editID" value="${data["id"]}">Confirmar</button>
+        <button type="submit" name="gameID" value="${
+          data["id"]
+        }">Confirmar</button>
         <button type="button" id="cancel">Cancelar</button>
       </span>
     </form>

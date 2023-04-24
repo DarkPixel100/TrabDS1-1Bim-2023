@@ -55,7 +55,7 @@ if (!isset($_SESSION["userID"])) {
 
 
         // Barra de pesquisa (só disponível para admins)
-        if ($admin): ?>
+        if ($admin) : ?>
             <form id="search-viewer" action="" method="post" autocomplete="off">
                 <span id="search">
                     <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos...">
@@ -65,13 +65,15 @@ if (!isset($_SESSION["userID"])) {
                 </span>
                 <button type="submit" name="submit" value="showMine">Mostrar meus cartuchos</button>
                 <button type="submit" name="submit" value="showAll">Mostrar todos os cartuchos</button>
+                <a href="gera_relatorio.php">
+                    <button type="button">Cartuchos removidos</button>
+                </a>
             </form>
         <?php endif; ?>
     </header>
     <main>
         <!-- Form de cadastro -->
-        <form class="infoBox" action="./insere_cartucho.php" method="POST" enctype="multipart/form-data"
-            autocomplete="off">
+        <form class="infoBox" action="./insere_cartucho.php" method="POST" enctype="multipart/form-data" autocomplete="off">
             <label for="titulo">Título do jogo:</label>
             <input type="text" id="titulo" name="titulo" placeholder="The Legend of Zelda: Ocarina of Time" required>
 
@@ -82,8 +84,7 @@ if (!isset($_SESSION["userID"])) {
             <input type="text" id="sistema" name="sistema" placeholder="Nintendo 64" required>
 
             <label for="ano">Ano de lançamento:</label>
-            <input type="number" id="ano" name="ano" inputmode="numeric" step="1" min="1910"
-                max="<?php echo (int) date("Y") ?>" placeholder="1910-<?php echo (int) date("Y") ?>" required>
+            <input type="number" id="ano" name="ano" inputmode="numeric" step="1" min="1910" max="<?php echo (int) date("Y") ?>" placeholder="1910-<?php echo (int) date("Y") ?>" required>
 
             <label for="fotocartucho">Foto do cartucho:</label>
             <input type="file" id="fotocartucho" name="fotocartucho" accept="image/png, image/jpg, image/jpeg" required>
@@ -134,13 +135,13 @@ if (!isset($_SESSION["userID"])) {
             }
 
             // Construindo a lista dinamicamente
-            if (sizeof($resultarray) == 0): ?>
+            if (sizeof($resultarray) == 0) : ?>
                 <p>Nenhum cartucho cadastrado.</p>
 
-            <?php else: ?>
-                <?php if (sizeof($resultarray) == 1): ?>
+            <?php else : ?>
+                <?php if (sizeof($resultarray) == 1) : ?>
                     <p id="results">1 cartucho.</p>
-                <?php else: ?>
+                <?php else : ?>
                     <p id="results">
                         <?php echo sizeof($resultarray); ?> cartuchos. Ordenados por data
                     </p>
@@ -149,7 +150,7 @@ if (!isset($_SESSION["userID"])) {
                 <form action="./removendo.php" method="POST" autocomplete="off">
 
                     <!-- Add os jogos resultantes da query -->
-                    <?php foreach ($resultarray as $jogo): ?>
+                    <?php foreach ($resultarray as $jogo) : ?>
                         <li class="jogo" id="<?php echo $jogo["gameID"]; ?>">
                             <span class="gameID">ID:
                                 <?php echo $jogo["gameID"]; ?>
@@ -179,7 +180,7 @@ if (!isset($_SESSION["userID"])) {
                                     <?php echo $jogo["sistema"]; ?>
                                 </span>
 
-                                <?php if ($admin): ?>
+                                <?php if ($admin) : ?>
                                     <span>Usuário: <b>
                                             <?php echo $jogo["username"] . ' - UserID: ' . $jogo["id"]; ?>
                                         </b>
@@ -195,9 +196,9 @@ if (!isset($_SESSION["userID"])) {
                                 </span>
                             </div>
                         </li>
-                    <?php endforeach;
-            endif; ?>
-            </form>
+                <?php endforeach;
+                endif; ?>
+                </form>
         </div>
     </main>
 </body>
