@@ -1,24 +1,41 @@
 <?php
+$conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
+$sqlquery = "SELECT * FROM users WHERE id = ?;";
+$stmt = mysqli_prepare($conexao, $sqlquery);
+$stmt->bind_param("i", $_SESSION["userID"]);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$resultarray = array();
+while ($data = mysqli_fetch_array($resultado, MYSQLI_ASSOC)) {
+    array_push($resultarray, $data);
+}
 
-$html = "<table border='1' width='100%' style='border-collapse: collapse;'>
+$html = "  
+        <table border='1' width='100%' style='border-collapse: collapse;'>
         <tr>
-            <th>Username</th><th>Email</th>
+            <th>UserID</th>
+            <th>Username</th>
+            <th>GameID</th>
+            <th>Título</th>
+            <th>Sistema</th>
+            <th>Ano</th>
+            <th>Empresa</th>
+            <th>Img</th>
         </tr>
+        <?php foreach ($resultarray as $jogo): ?>
         <tr>
-            <td>yssyogesh</td>
-            <td>yogesh@makitweb.com</td>
+            <td><?php echo $jogo[userID]; ?></td>
+            <td><?php echo $jogo[username]; ?></td>
+            <td><?php echo $jogo[gameID]; ?></td>
+            <td><?php echo $jogo[titulo]; ?></td>
+            <td><?php echo $jogo[sistema]; ?></td>
+            <td><?php echo $jogo[ano]; ?></td>
+            <td><?php echo $jogo[empresa]; ?></td>
+            <td><img src=<?php echo $jogo[imgpath]; ?>></td>
         </tr>
-        <tr>
-            <td>sonarika</td>
-            <td>sonarika@makitweb.com</td>
-        </tr>
-        <tr>
-            <td>vishal</td>
-            <td>vishal@makitweb.com</td>
-        </tr>
+        <?php endforeach; ?>
         </table>";
 $filename = "newpdffile";
-
 // include autoloader
 require_once './libs/dompdf/autoload.inc.php';
 
