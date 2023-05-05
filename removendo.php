@@ -14,9 +14,9 @@ if (isset($_POST["removeID"])) {
 
     // Registrando a remoção no relatório
     $date = date("Y-m-d h:i:s");
-    $sqlquery = "INSERT INTO historicoderemocao (deletionUserID, gameUserID, titulo, sistema, ano, empresa, dataremocao) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sqlquery = "INSERT INTO historicoderemocao (deletionUserID, gameUserID, gameID, titulo, sistema, ano, empresa, dataremocao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexao, $sqlquery);
-    $stmt->bind_param("iississ", $_SESSION["userID"], $resultarray["userID"], $resultarray["titulo"], $resultarray["sistema"], $resultarray["ano"], $resultarray["empresa"], $date);
+    $stmt->bind_param("iiississ", $_SESSION["userID"], $resultarray["userID"], $resultarray["gameID"], $resultarray["titulo"], $resultarray["sistema"], $resultarray["ano"], $resultarray["empresa"], $date);
     $stmt->execute();
 
     // Removendo o cartucho do banco

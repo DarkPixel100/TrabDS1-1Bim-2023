@@ -4,21 +4,12 @@ function popup(data) {
   fullDiv.id = "popup";
   document.body.prepend(fullDiv);
   let innerHTML;
-  if (data["type"] == "img") {
-
-    fullDiv.addEventListener("click", (e) => { // Fechar o popup
-      if (e.target.tagName == 'DIV')
-        fullDiv.remove();
-    });
-    innerHTML = `<img src="${data["url"]}">`;
-    fullDiv.innerHTML = innerHTML;
-    return;
-  } else if (data["type"] == "remove") {
+  if (data["type"] == "remove") {
     innerHTML = `
     <form class="infoBox" action="removendo.php" method="POST">
-    <h3>Tem certeza que deseja remover esse cartucho?</h3>
-    <button type="submit" name="removeID" value="${data["id"]}">Sim</button>
-    <button type="button" id="cancel">Não</button>
+      <h3>Tem certeza que deseja remover esse cartucho?</h3>
+      <button type="submit" name="removeID" value="${data["id"]}">Sim</button>
+      <button type="button" id="cancel">Não</button>
     </form>
     `;
   } else if (data["type"] == "edit") {
@@ -37,27 +28,56 @@ function popup(data) {
             <label for="ano">Alterar ano de lançamento:</label>
             <input type="number" id="ano" name="ano" inputmode="numeric" step="1" min="1910" max="${new Date().getFullYear()}" placeholder="1910-${new Date().getFullYear()}">
       <span class="buttons">
-        <button type="submit" name="gameID" value="${
-          data["id"]
-        }">Confirmar</button>
+        <button type="submit" name="gameID" value="${data["id"]}">Confirmar</button>
         <button type="button" id="cancel">Cancelar</button>
       </span>
     </form>
     `;
+  } else {
+    fullDiv.addEventListener("click", (e) => {
+      // Fechar o popup
+      if (e.target.tagName == "DIV") fullDiv.remove();
+    });
+    if (data["type"] == "img") {
+      innerHTML = `<img src="${data["url"]}">`;
+    } else if (data["type"] == "tables") {
+      innerHTML = `
+      <form id="relatorios" class="infoBox" action="relatorio.php" method="POST">
+        <button type="submit" name="relatorio" value="mine">Meus cartuchos</button>
+        <button type="submit" name="relatorio" value="all">Todos os cartuchos</button>
+        <button type="submit" name="relatorio" value="removed">Cartuchos removidos</button>
+      </form>
+    `;
+    }
+    fullDiv.innerHTML = innerHTML;
+    return;
   }
   fullDiv.innerHTML = innerHTML;
-  document.getElementById('cancel').addEventListener('click', () => {
+  document.getElementById("cancel").addEventListener("click", () => {
     fullDiv.remove();
   });
 }
 
 // Eventos para gerar popups
-document.getElementById('gameList').addEventListener("click", (e) => {
+document.addEventListener("click", (e) => {
   let clicked = e.target;
-  if (clicked.classList.contains('imgBox'))
+  if (clicked.classList.contains("imgBox"))
     popup({ type: "img", url: clicked.children[0].src });
-  else if (clicked.classList.contains('remove-btn') || clicked.parentElement.classList.contains('remove-btn'))
-    popup({ type: "remove", id: clicked.value ? clicked.value : clicked.parentElement.value});
-  else if (clicked.classList.contains('edit-btn') || clicked.parentElement.classList.contains('edit-btn'))
-    popup({ type: "edit", id: clicked.value ? clicked.value : clicked.parentElement.value });
+  else if (
+    clicked.classList.contains("remove-btn") ||
+    clicked.parentElement.classList.contains("remove-btn")
+  )
+    popup({
+      type: "remove",
+      id: clicked.value ? clicked.value : clicked.parentElement.value,
+    });
+  else if (
+    clicked.classList.contains("edit-btn") ||
+    clicked.parentElement.classList.contains("edit-btn")
+  )
+    popup({
+      type: "edit",
+      id: clicked.value ? clicked.value : clicked.parentElement.value,
+    });
+  else if (clicked.classList.contains("tables")) popup({ type: "tables" });
 });

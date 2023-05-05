@@ -56,7 +56,7 @@ if (!isset($_SESSION["userID"])) {
 
         // Barra de pesquisa (só disponível para admins)
         if ($admin) : ?>
-            <form id="search-viewer" action="" method="post" autocomplete="off">
+            <form id="search-viewer" action="" method="POST" autocomplete="off">
                 <span id="search">
                     <input id="searchBar" type="search" name="pesquisa" placeholder="Pesquisar cartuchos...">
                     <button id="search-btn" type="submit" name="submit" value="search">
@@ -65,9 +65,11 @@ if (!isset($_SESSION["userID"])) {
                 </span>
                 <button type="submit" name="submit" value="showMine">Mostrar meus cartuchos</button>
                 <button type="submit" name="submit" value="showAll">Mostrar todos os cartuchos</button>
-                <a href="gera_relatorio.php">
-                    <button type="button">Cartuchos removidos</button>
-                </a>
+                <button class="tables" type="button">Tabelas</button>
+            </form>
+        <?php else : ?>
+            <form id="relatorios" action="relatorio.php" method="POST">
+                <button type="submit" nome="relatorio" value="mine">Mostrar meus cartuchos</button>
             </form>
         <?php endif; ?>
     </header>
