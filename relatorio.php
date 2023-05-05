@@ -1,18 +1,37 @@
 <?php
+require_once('libs/tcpdf/examples/tcpdf_include.php');
+
+$pdf = new TCPDF('L');
+
+$pdf->AddPage();
+
+$pdf->writeHTML($html);
+
 session_start();
 $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
 if (isset($_POST["relatorio"])) {
-    if ($_POST["relatorio"] == "mine") {
-        $sqlquery = "SELECT userID, gameID, titulo, sistema, ano, empresa, imgpath FROM cartuchos JOIN users WHERE userID = ? AND users.id = userID;";
-        $stmt = mysqli_prepare($conexao, $sqlquery);
-        $stmt->bind_param("i", $_SESSION["userID"]);
-    } else if ($_POST["relatorio"] == "all") {
-        $sqlquery = "SELECT gameID, userID, username, titulo, sistema, ano, empresa, imgpath FROM cartuchos JOIN users WHERE users.id = userID;";
-        $stmt = mysqli_prepare($conexao, $sqlquery);
-    } else {
-        $sqlquery = "SELECT * FROM historicoderemocao;";
-        $stmt = mysqli_prepare($conexao, $sqlquery);
+    switch ($_POST["relatorio"]) {
+        case 'mine':
+            $sqlquery = "SELECT userID, gameID, titulo, sistema, ano, empresa, imgpath FROM cartuchos JOIN users WHERE userID = ? AND users.id = userID;";
+            $stmt = mysqli_prepare($conexao, $sqlquery);
+            $stmt->bind_param("i", $_SESSION["userID"]);
+            break;
+        
+        case 'all':
+            $sqlquery = "SELECT gameID, userID, username, titulo, sistema, ano, empresa, imgpath FROM cartuchos JOIN users WHERE users.id = userID;";
+            $stmt = mysqli_prepare($conexao, $sqlquery);
+            break;
+        
+        case 'summary':
+            $sqlquery = "SELECT titulo, username, imgpath FROM cartuchos JOIN users WHERE users.id = userID;";
+            $stmt = mysqli_prepare($conexao, $sqlquery);
+            break;
+        
+        case 'removed':
+            $sqlquery = "SELECT * FROM historicoderemocao ORDER BY dataremocao;";
+            $stmt = mysqli_prepare($conexao, $sqlquery);
+            break;
     }
 }
 $stmt->execute();
@@ -22,50 +41,67 @@ while ($data = $resultado->fetch_assoc()) {
     array_push($resultarray, $data);
 }
 
-$html = "<link rel='stylesheet' href='tabela.css'>
-        <table>
-        <tr>";
-if (isset($resultarray[0])) {
-    foreach ($resultarray[0] as $header => $value) {
-        if ($header == "imgpath") $header = "imagem";
-        $html = $html . "<th>$header</th>";
+$html = <<<HTML
+<style>
+    table {
+        width: 100%;
     }
-} else $html = $html . "<th>Sem registros</th>";
-$html = $html . "</tr>";
+    th, td {
+        text-align: center;
+        border: 1 solid black;
+    }
+    img {
+        width: 80vw;
+    }
+</style>
+
+<table cellpadding="2">
+    <tr>
+HTML;
+
+if (isset($resultarray[0])) {
+    foreach ($resultarray[0] as $header => $path) {
+        if ($header == "imgpath")
+            $header = "imagem";
+
+        $html = <<<HTML
+        $html<th><b>$header</b></th>
+        HTML;
+    }
+} else {
+    $html = <<<HTML
+    $html<th>Sem registros</th>
+    HTML;
+}
+
+$html = <<<HTML
+    $html</tr>
+    HTML;
 
 foreach ($resultarray as $jogo) {
-    $html = $html . "<tr>";
+    $html = <<<HTML
+    $html<tr>
+    HTML;
+
     foreach ($jogo as $key => $dado) {
-        if ($key == "imgpath") $html = $html . "<td><img src='$dado'></td>";
-        else $html = $html . "<td>$dado</td>";
+        if ($key == "imgpath") {
+            $html = <<<HTML
+            $html<td><img src="$dado"></td>
+            HTML;
+        } else {
+            $html = <<<HTML
+            $html<td>$dado</td>
+            HTML;
+        }
     }
-    $html = $html . "</tr>";
+    $html = <<<HTML
+    $html</tr>
+    HTML;
 }
-$html = $html . "</table>";
+$html = <<<HTML
+$html</table>
+HTML;
 
-$filename = "newpdffile";
-// include autoloader
-require_once './libs/dompdf/autoload.inc.php';
+$pdf->writeHTML($html);
 
-// reference the Dompdf namespace
-use Dompdf\Dompdf;
-use Dompdf\Options;
-
-$options = new Options();
-$options->setChroot('');
-
-// instantiate and use the dompdf class
-$dompdf = new Dompdf();
-$dompdf->setOptions($options);
-
-$dompdf->loadHtml($html);
-
-// (Optional) Setup the paper size and orientation
-$dompdf->setPaper('A4', 'landscape');
-
-// Render the HTML as PDF
-$dompdf->render();
-
-// Output the generated PDF to Browser
-$dompdf->stream($filename, array("Attachment" => 0));
-// echo $html;
+$pdf->Output('relatorio.pdf');

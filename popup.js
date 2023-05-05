@@ -46,6 +46,7 @@ function popup(data) {
         <button type="submit" name="relatorio" value="mine">Meus cartuchos</button>
         <button type="submit" name="relatorio" value="all">Todos os cartuchos</button>
         <button type="submit" name="relatorio" value="removed">Cartuchos removidos</button>
+        <button type="submit" name="relatorio" value="summary">Relatório resumo</button>
       </form>
     `;
     }

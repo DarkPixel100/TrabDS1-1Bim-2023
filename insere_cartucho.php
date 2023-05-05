@@ -4,7 +4,7 @@ session_start();
 if (isset($_POST["submit"])) {
     $imageFileType = strtolower(pathinfo($_FILES["fotocartucho"]["name"], PATHINFO_EXTENSION)); // Verificando o tipo de arquivo
     $target_dir = "uploads/img/"; // Diretório de envio dos arquivos de imagem
-    $target_file = $target_dir . "cartuchoUSER" . $_SESSION["userID"] . "_" . date("d-m-y_h-i-s") . "." . $imageFileType; // Nomeando os arquivos
+    $target_file = $target_dir . "cartuchoUSER" . $_SESSION["userID"] . "_" . date("d-m-y_h-i-s") . ".jpg"; // Nomeando os arquivos
     move_uploaded_file($_FILES["fotocartucho"]["tmp_name"], $target_file); // Salvando arquivo
 
     // Inserindo o cartucho cadastrado no banco
