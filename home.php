@@ -188,6 +188,7 @@ if (!isset($_SESSION["userID"])) {
                                         </b>
                                     </span>
                                 <?php endif; ?>
+                                <!-- Botões de edição e remoção -->
                                 <span class="buttons">
                                     <button type="button" class="remove-btn" value="<?php echo $jogo["gameID"]; ?>">
                                         <span class="fa fa-trash"></span>
