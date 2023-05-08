@@ -22,22 +22,27 @@ require_once('libs/tcpdf/examples/tcpdf_include.php');
 
 $pdf = new TCPDF('L');
 
+$verify = false;
+
 if (isset($_POST["relatorio"])) {
     if ($_POST["relatorio"] == 'mine') {
         $sqlquery = "SELECT userID, gameID, titulo, sistemas.nome, cartuchos.ano, empresa, imgpath FROM cartuchos JOIN users ON userID = users.id AND userID = ? LEFT JOIN sistemas ON cartuchos.sistema = sistemas.id;";
         $stmt = mysqli_prepare($conexao, $sqlquery);
         $stmt->bind_param("i", $_SESSION["userID"]);
+        $verify = true;
     } else if ($admin) {
         switch ($_POST["relatorio"]) {
 
             case 'all':
                 $sqlquery = "SELECT gameID, userID, username, titulo, sistemas.nome, cartuchos.ano, empresa, imgpath FROM cartuchos JOIN users ON users.id = userID LEFT JOIN sistemas ON cartuchos.sistema = sistemas.id;";
                 $stmt = mysqli_prepare($conexao, $sqlquery);
+                $verify = true;
                 break;
 
             case 'removed':
                 $sqlquery = "SELECT * FROM historicoderemocao ORDER BY dataremocao DESC;";
                 $stmt = mysqli_prepare($conexao, $sqlquery);
+                $verify = true;
                 break;
 
             case 'summary':
@@ -45,13 +50,12 @@ if (isset($_POST["relatorio"])) {
                 $stmt = mysqli_prepare($conexao, $sqlquery);
                 $reltype = 'resumo';
                 $pdf = new TCPDF('P');
+                $verify = true;
                 break;
         }
-    } else {
-        $stmt = false;
     }
 }
-if ($stmt) {
+if ($verify) {
     $stmt->execute();
     $resultado = $stmt->get_result();
     $resultarray = array();
