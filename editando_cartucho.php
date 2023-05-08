@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-if (isset($_POST["gameID"])) {
+if (isset($_POST["itemID"])) {
     $conexao = mysqli_connect("localhost", "root", "mysqluser", 
     "DS1-ListaJogos-Diego-Sofia");
 
     $sqlquery = "SELECT * FROM cartuchos WHERE gameID = ?";
     $stmt = mysqli_prepare($conexao, $sqlquery);
-    $stmt->bind_param("i", $_POST["gameID"]);
+    $stmt->bind_param("i", $_POST["itemID"]);
     $stmt->execute();
     $resultado = $stmt->get_result();
 
@@ -25,7 +25,7 @@ if (isset($_POST["gameID"])) {
     // Alterando dados do cartucho
     $sqlquery = "UPDATE cartuchos SET titulo = ?, empresa = ?, sistema = ?, ano = ? WHERE gameID = ?";
     $stmt = mysqli_prepare($conexao, $sqlquery);
-    $stmt->bind_param("sssii", $infos["titulo"], $infos["empresa"], $infos["sistema"], $infos["ano"], $infos["gameID"]);
+    $stmt->bind_param("ssiii", $infos["titulo"], $infos["empresa"], $infos["sistema"], $infos["ano"], $_POST["itemID"]);
     $stmt->execute();
 
     // Retornando à página anterior

@@ -5,7 +5,7 @@ if (isset($_POST["removeID"])) {
     $conexao = mysqli_connect("localhost", "root", "mysqluser", "DS1-ListaJogos-Diego-Sofia");
 
     // Pegando dados do jogo do banco
-    $sqlquery = "SELECT * FROM cartuchos WHERE gameID = ?";
+    $sqlquery = "SELECT userID, gameID, titulo, sistemas.nome, cartuchos.ano, empresa, imgpath FROM cartuchos LEFT JOIN sistemas ON cartuchos.sistema = sistemas.id WHERE gameID = ?;";
     $stmt = mysqli_prepare($conexao, $sqlquery);
     $stmt->bind_param("i", $_POST["removeID"]);
     $stmt->execute();
@@ -16,7 +16,7 @@ if (isset($_POST["removeID"])) {
     $date = date("Y-m-d h:i:s");
     $sqlquery = "INSERT INTO historicoderemocao (deletionUserID, gameUserID, gameID, titulo, sistema, ano, empresa, dataremocao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexao, $sqlquery);
-    $stmt->bind_param("iiississ", $_SESSION["userID"], $resultarray["userID"], $resultarray["gameID"], $resultarray["titulo"], $resultarray["sistema"], $resultarray["ano"], $resultarray["empresa"], $date);
+    $stmt->bind_param("iiississ", $_SESSION["userID"], $resultarray["userID"], $resultarray["gameID"], $resultarray["titulo"], $resultarray["nome"], $resultarray["ano"], $resultarray["empresa"], $date);
     $stmt->execute();
 
     // Removendo o cartucho do banco

@@ -12,7 +12,7 @@
 
 
 /* Barra de pesquisa */
-#search-viewer {
+#top-buttons {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
@@ -23,16 +23,16 @@
     border-radius: var(--borderRadius);
 }
 
-#search-viewer input {
+#top-buttons input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-#search-viewer button {
+#top-buttons button {
     padding: 1rem;
 }
 
-#search-viewer button:not(#search-btn) {
+#top-buttons button:not(#search-btn) {
     border-radius: var(--borderRadius);
 }
 
@@ -40,7 +40,7 @@
     display: flex;
 }
 
-#search-viewer #search-btn {
+#top-buttons #search-btn {
     border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
@@ -89,7 +89,7 @@ label[for=fotocartucho] {
 }
 
 /* Formatação da lista de Jogos */
-#gameList {
+#itemList{
     position: relative;
     box-sizing: content-box;
     height: calc(((1.5rem * 2 + 10rem) * 3) + (1rem * 2));
@@ -104,7 +104,7 @@ label[for=fotocartucho] {
     font-size: .9rem;
 }
 
-#gameList form {
+#itemList form {
     min-height: fit-content;
     max-height: 100%;
     width: 100%;
@@ -112,7 +112,8 @@ label[for=fotocartucho] {
 }
 
 /* Formatação do container com as informações do jogo */
-.jogo {
+.item {
+    list-style-type: none;
     position: relative;
     box-sizing: content-box;
     height: 10rem;
@@ -127,7 +128,7 @@ label[for=fotocartucho] {
     margin-right: .5rem;
 }
 
-.jogo .gameID {
+.item .gameID {
     position: absolute;
     left: .25rem;
     writing-mode: vertical-lr;
@@ -135,7 +136,7 @@ label[for=fotocartucho] {
 }
 
 /* Holder da imagem */
-.jogo .imgBox {
+.item .imgBox {
     height: 10rem;
     width: 10rem;
     display: flex;
@@ -144,7 +145,7 @@ label[for=fotocartucho] {
     position: relative;
 }
 
-.jogo .imgBox:hover::before {
+.item .imgBox:hover::before {
     content: "";
     height: 100%;
     width: 100%;
@@ -154,7 +155,7 @@ label[for=fotocartucho] {
     border-radius: var(--borderRadius);
 }
 
-.jogo .imgBox>img {
+.item .imgBox>img {
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -162,24 +163,25 @@ label[for=fotocartucho] {
 }
 
 /* Informações textuais do cartucho */
-.jogo .gameInfo {
-    height: 100%;
+.item .itemInfo {
+    height: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
 }
 
-.jogo .gameInfo>.gameTitle {
+.item .itemInfo>.gameTitle, .item .itemInfo>.systemName {
     font-weight: bolder;
 }
 
 /* Botão para remover ou editar o cartucho cadastrado */
+
 form>.buttons {
     text-align: center;
 }
 
-.jogo button {
+.item button {
     border-radius: var(--borderRadius);
     border: none;
     margin: 0;
@@ -226,13 +228,13 @@ form>.buttons {
 
 @media screen and (930px > width > 800px) {
 
-    .jogo {
+    .item {
         height: unset;
         flex-direction: column;
         gap: 1rem;
     }
 
-    .jogo .gameID {
+    .item .gameID {
         position: absolute;
         writing-mode: horizontal-tb;
         top: .15rem;
@@ -240,22 +242,22 @@ form>.buttons {
         transform: translate(-50%, 0);
     }
 
-    .jogo .imgBox {
+    .item .imgBox {
         height: 10rem;
     }
 
-    .jogo .gameInfo {
+    .item .itemInfo {
         gap: .5rem;
     }
 
-    .jogo button {
+    .item button {
         align-self: center;
     }
 }
 
 @media screen and (930px > width) {
 
-    #search-viewer {
+    #top-buttons {
         flex-direction: column;
     }
 }

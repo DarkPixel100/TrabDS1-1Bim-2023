@@ -48,7 +48,7 @@
             <input type="password" id="password" name="password" placeholder="Senha" required>
 
             <input type="submit" name="submit" value="Login" required>
-            <a href="./register.php"> <button type="button">Criar Conta</Button> </a>
+            <a href="./register.php">Criar Conta</a>
         </form>
     </main>
 

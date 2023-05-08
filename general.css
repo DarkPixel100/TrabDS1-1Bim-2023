@@ -118,19 +118,28 @@ main form, .infoBox {
 
 
 /* Configurando inputs */
-input, button {
+input, button, select, option, a {
     background-color: var(--inputColor);
     color: white;
     border-radius: var(--borderRadius);
     padding: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-:is(input, button):is(:hover, :focus-visible) {
+a {
+    text-decoration: none;
+    text-align: center;
+}
+
+:is(input, button, a, select, option):is(:hover, :focus-visible) {
     background-color: var(--inputHoverColor);
 }
 
 input:focus-visible,
-button:focus-visible {
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+option:focus-visible {
     outline: 3px solid var(--inputOutline);
 }
 
@@ -144,13 +153,15 @@ input[type=file],
 }
 
 input[type=submit],
-button {
+button,
+a {
     background-color: var(--buttonColor);
     color: var(--fontColor);
 }
 
 input[type=submit]:hover,
-button:hover {
+button:hover,
+a:hover {
     background-color: var(--buttonHoverColor);
     cursor: pointer;
 }

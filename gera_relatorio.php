@@ -1,5 +1,5 @@
 <?php
-function gera($type, $array)
+function gera($type, $array, $imgHeight, $imgWidth)
 {
     $html = <<<HTML
     <table>
@@ -7,6 +7,7 @@ function gera($type, $array)
 
     if ($type == "geral") {
         $html = <<<HTML
+        $html
         <style>
             table {
                 max-width: 100%;
@@ -15,21 +16,29 @@ function gera($type, $array)
                 text-align: center;
                 border: 1 solid black;
             }
+
+            img {
+                width: 1000mm;
+                height: 23.8mm;
+            }
         </style>
+        <tr>
         HTML;
         // Pegando os headers (caso existam registros)
         if (isset($array[0])) {
             foreach ($array[0] as $header => $path) {
                 if ($header == "imgpath")
                     $header = "imagem";
+                if ($header == "nome")
+                    $header = "sistema";
 
                 $html = <<<HTML
-                $html<tr><th><b>$header</b></th>
+                $html<th><b>$header</b></th>
                 HTML;
             }
         } else {
             $html = <<<HTML
-            $html<tr><th>Sem registros</th>
+            $html<th>Sem registros</th>
             HTML;
         }
 
@@ -49,33 +58,36 @@ function gera($type, $array)
                     $html<td><img src="$dado" width="80vw"></td>
                     HTML;
                 } else {
-                    $html = <<<HTML
-                    $html<td><p>$dado</p></td>
-                    HTML;
+                    if ($dado) {
+                        $html = <<<HTML
+                        $html<td><p>$dado</p></td>
+                        HTML;
+                    } else {
+                        $html = <<<HTML
+                        $html<td><p>NÃO CADASTRADO</p></td>
+                        HTML;
+                    }
                 }
             }
             $html = <<<HTML
             $html</tr>
             HTML;
         }
-        $html = <<<HTML
-        $html</table>
-        HTML;
     } else if ($type == "resumo") {
         $html = <<<HTML
         $html
         <style>
             table {
                 max-width: 100%;
-                /* max-height: 100%; */
             }
             th, td {
-                height: 38mm; /* Não sei determinar a altura */
                 text-align: center;
                 border: 1 solid black;
             }
+            
             img {
-                height: 35mm; /* Não sei determinar a altura */
+                width: $imgWidth mm;
+                height: $imgHeight mm;
             }
         </style>
         HTML;
@@ -86,7 +98,7 @@ function gera($type, $array)
         } else {
             for ($rows = 0; $rows < ceil(sizeof($array) / 3); $rows += 1) {
                 $html = <<<HTML
-                $html<tr height="20%">
+                $html<tr>
                 HTML;
                 // Inserindo os dados na tabela
                 for ($i = ($rows * 3); $i < min(($rows + 1) * 3, sizeof($array)); $i += 1) {
@@ -101,7 +113,7 @@ function gera($type, $array)
                             HTML;
                         } else {
                             $html = <<<HTML
-                            $html<b>$dado</b><br>
+                            $html<b>$key: $dado</b><br>
                             HTML;
                         }
                     }
@@ -114,10 +126,10 @@ function gera($type, $array)
                 HTML;
             }
         }
-        $html = <<<HTML
-            $html</table>
-            HTML;
     }
+    $html = <<<HTML
+    $html</table>
+    HTML;
 
     return $html;
 }
